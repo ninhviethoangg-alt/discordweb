@@ -67,7 +67,8 @@
                 </div>
                 <div class="welcome-time"><i class="fa-regular fa-clock"></i> Gần đây</div>
             `;
-            setTimeout(() => { div.remove(); }, 24 * 60 * 60 * 1000);
+            // 10000 mili giây = 10 giây
+setTimeout(() => { div.remove(); }, 10000);
             return div;
         }
 
