@@ -64,10 +64,8 @@
         let dangChay = false;
         let isFirstLoad = true; 
 
-        // Hàm tạo khung HTML
         function taoKhungThongBao(name, isInstant) {
             const div = document.createElement('div');
-            // Nếu là lúc vừa mở web (instant), hiện luôn không cần hiệu ứng lướt lướt
             div.className = isInstant ? 'welcome-card' : 'welcome-card slide-down';
             div.innerHTML = `
                 <div class="welcome-user">
@@ -76,22 +74,18 @@
                 </div>
                 <div class="welcome-time"><i class="fa-regular fa-clock"></i> Gần đây</div>
             `;
-            // Cài đặt tự hủy khung sau 24 giờ nếu ông treo máy luôn không tắt tab
             setTimeout(() => { div.remove(); }, 24 * 60 * 60 * 1000);
             return div;
         }
 
         async function capNhatThongBao() {
             try {
-                const res = await fetch('http://localhost:3000/api/members');
+                // ĐÃ SỬA: Dùng link Render thật
+                const res = await fetch('https://discordweb-94yy.onrender.com/api/members');
                 const data = await res.text();
-                const lines = data.trim().split('\n');
                 
-                // Lọc bỏ dòng trống
-                const validLines = lines.filter(line => line.trim() !== "");
+                const validLines = data.trim().split('\n').filter(line => line.trim() !== "");
                 
-                // CHÌA KHÓA Ở ĐÂY: Chỉ lấy đúng 15 người mới vào gần nhất để lưu lịch sử
-                // Những người từ đời nảo đời nào sẽ bị bỏ qua
                 const recentMembers = validLines.slice(-15).map(line => line.split('|')[0]);
 
                 if (isFirstLoad) {
@@ -101,16 +95,14 @@
                     if (recentMembers.length === 0) {
                         container.innerHTML = '<div class="empty-msg" id="emptyMsg">Chưa có thành viên nào mới gia nhập.</div>';
                     } else {
-                        // Đảo ngược mảng để in từ mới nhất đến cũ nhất
                         const reversedMembers = [...recentMembers].reverse();
                         reversedMembers.forEach(name => {
                             daHienThi.add(name);
-                            container.appendChild(taoKhungThongBao(name, true)); // True = hiện lập tức
+                            container.appendChild(taoKhungThongBao(name, true));
                         });
                     }
                     isFirstLoad = false;
                 } else {
-                    // Từ lần check thứ 2 trở đi: Thấy tên mới thì cho vào hàng đợi để chạy hiệu ứng 2s
                     recentMembers.forEach(name => {
                         if (!daHienThi.has(name) && !hangDoi.includes(name)) {
                             hangDoi.push(name);
@@ -119,7 +111,7 @@
                     xuLyHangDoi();
                 }
             } catch (err) {
-                console.log("Đang chờ kết nối...");
+                console.log("Đang đợi kết nối từ Render...");
             }
         }
 
@@ -134,19 +126,16 @@
             daHienThi.add(name); 
 
             const container = document.getElementById('memberList');
-            const div = taoKhungThongBao(name, false); // False = chạy hiệu ứng rớt xuống
-            container.prepend(div); // Bỏ lên trên cùng
+            const div = taoKhungThongBao(name, false);
+            container.prepend(div);
 
-            // Đợi 2 giây mới chạy người tiếp theo
             setTimeout(() => {
                 dangChay = false;
                 xuLyHangDoi(); 
             }, 2000);
         }
 
-        // Chạy lần đầu
         capNhatThongBao();
-        // Check liên tục mỗi 3 giây
         setInterval(capNhatThongBao, 3000);
     </script>
 </body>
