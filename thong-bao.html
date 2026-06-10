@@ -14,8 +14,19 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: linear-gradient(rgba(10, 10, 12, 0.45), rgba(10, 10, 12, 0.65)), url('./img/cs2background.webp') no-repeat center center fixed; background-size: cover; color: var(--text-main); overflow-x: hidden; padding-bottom: 80px; }
         .navbar { background: var(--bg-dark); backdrop-filter: blur(12px); display: flex; justify-content: space-between; align-items: center; padding: 0 5%; height: 70px; position: sticky; top: 0; z-index: 1000; border-bottom: var(--border-glass); box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
-.logo { font-size: 24px; font-weight: 800; color: var(--white); display: flex; align-items: center; gap: 12px; }
-        .logo i { color: var(--discord-blue); filter: drop-shadow(0 0 8px rgba(88, 101, 242, 0.6)); }
+.logo { 
+    font-size: 24px; 
+    font-weight: 800; 
+    color: var(--white); 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+}
+/* Đây là đoạn mã giúp icon có màu xanh và hiệu ứng neon */
+.logo i { 
+    color: var(--discord-blue); 
+    filter: drop-shadow(0 0 8px rgba(88, 101, 242, 0.6)); 
+}
         .nav-links { display: flex; list-style: none; gap: 8px; }
         .nav-btn {
             background: none; border: none; color: var(--text-muted); font-size: 15px; font-weight: 600;
