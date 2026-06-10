@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHOST COMMUNITY - Thông Báo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-glass: rgba(17, 18, 20, 0.65); --bg-card: rgba(30, 31, 34, 0.8); --bg-dark: rgba(11, 11, 12, 0.9);
+            --discord-blue: #5865F2; --discord-green: #23a55a; --text-main: #f2f3f5; --text-muted: #b5bac1; 
+            --white: #ffffff; --neon-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); --border-glass: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: linear-gradient(rgba(10, 10, 12, 0.45), rgba(10, 10, 12, 0.65)), url('./img/cs2background.webp') no-repeat center center fixed; background-size: cover; color: var(--text-main); overflow-x: hidden; padding-bottom: 80px; }
+        .navbar { background: var(--bg-dark); backdrop-filter: blur(12px); display: flex; justify-content: space-between; align-items: center; padding: 0 5%; height: 70px; position: sticky; top: 0; z-index: 1000; border-bottom: var(--border-glass); box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+        .logo { font-size: 24px; font-weight: 800; color: var(--white); display: flex; align-items: center; gap: 12px; }
+        .nav-links { display: flex; list-style: none; gap: 8px; }
+        .nav-btn { background: none; border: none; color: var(--text-muted); font-size: 15px; font-weight: 600; padding: 10px 18px; border-radius: 8px; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+        .nav-btn.active { color: var(--white); background-color: rgba(88, 101, 242, 0.2); border: 1px solid rgba(88, 101, 242, 0.4); }
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .welcome-box { background: var(--bg-glass); backdrop-filter: blur(16px); border-radius: 16px; padding: 24px; margin-bottom: 25px; border: var(--border-glass); box-shadow: var(--neon-shadow); min-height: 200px; }
+        .welcome-title { font-size: 14px; color: var(--discord-green); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px; }
+        .welcome-list { display: flex; flex-direction: column; gap: 12px; }
+        
+        .welcome-card { 
+            background-color: var(--bg-card); padding: 16px 20px; border-radius: 12px; 
+            display: flex; align-items: center; justify-content: space-between; 
+            border: var(--border-glass); border-left: 5px solid var(--discord-green);
+        }
+        /* Hiệu ứng chỉ chạy cho class có thêm animation */
+        .slide-down { opacity: 0; transform: translateY(-15px); animation: slideDown 0.5s ease forwards; }
+        @keyframes slideDown { to { opacity: 1; transform: translateY(0); } }
+
+        .welcome-user { display: flex; align-items: center; gap: 15px; }
+        .welcome-avatar-img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--discord-blue); }
+        .welcome-user span { color: var(--white); font-weight: 700; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; margin: 0 4px; }
+        .welcome-time { font-size: 13px; color: var(--text-muted); background: rgba(0, 0, 0, 0.2); padding: 4px 10px; border-radius: 20px; }
+        .empty-msg { text-align: center; color: var(--text-muted); font-size: 14px; font-style: italic; padding: 20px 0; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><i class="fa-brands fa-discord"></i> GHOST COMMUNITY</div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-btn">Trang Chủ</a></li>
+            <li><a href="thanh-vien.html" class="nav-btn">Thành Viên</a></li>
+            <li><a href="chi-tiet.html" class="nav-btn">Chi Tiết</a></li>
+            <li><a href="thong-bao.html" class="nav-btn active">Thông Báo</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="welcome-box">
+            <div class="welcome-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Hệ thống đang trực</div>
+            <div class="welcome-list" id="memberList">
+                <div class="empty-msg" id="emptyMsg">Đang tải lịch sử...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let daHienThi = new Set(); 
+        let hangDoi = []; 
+        let dangChay = false;
+        let isFirstLoad = true; 
+
+        // Hàm tạo khung HTML
+        function taoKhungThongBao(name, isInstant) {
+            const div = document.createElement('div');
+            // Nếu là lúc vừa mở web (instant), hiện luôn không cần hiệu ứng lướt lướt
+            div.className = isInstant ? 'welcome-card' : 'welcome-card slide-down';
+            div.innerHTML = `
+                <div class="welcome-user">
+                    <img class="welcome-avatar-img" src="https://api.dicebear.com/7.x/bottts/svg?seed=${name}" alt="Avatar">
+                    <div>Chào mừng <span>${name}</span> đã gia nhập Flash Beng!</div>
+                </div>
+                <div class="welcome-time"><i class="fa-regular fa-clock"></i> Gần đây</div>
+            `;
+            // Cài đặt tự hủy khung sau 24 giờ nếu ông treo máy luôn không tắt tab
+            setTimeout(() => { div.remove(); }, 24 * 60 * 60 * 1000);
+            return div;
+        }
+
+        async function capNhatThongBao() {
+            try {
+                const res = await fetch('http://localhost:3000/api/members');
+                const data = await res.text();
+                const lines = data.trim().split('\n');
+                
+                // Lọc bỏ dòng trống
+                const validLines = lines.filter(line => line.trim() !== "");
+                
+                // CHÌA KHÓA Ở ĐÂY: Chỉ lấy đúng 15 người mới vào gần nhất để lưu lịch sử
+                // Những người từ đời nảo đời nào sẽ bị bỏ qua
+                const recentMembers = validLines.slice(-15).map(line => line.split('|')[0]);
+
+                if (isFirstLoad) {
+                    const container = document.getElementById('memberList');
+                    container.innerHTML = ''; 
+
+                    if (recentMembers.length === 0) {
+                        container.innerHTML = '<div class="empty-msg" id="emptyMsg">Chưa có thành viên nào mới gia nhập.</div>';
+                    } else {
+                        // Đảo ngược mảng để in từ mới nhất đến cũ nhất
+                        const reversedMembers = [...recentMembers].reverse();
+                        reversedMembers.forEach(name => {
+                            daHienThi.add(name);
+                            container.appendChild(taoKhungThongBao(name, true)); // True = hiện lập tức
+                        });
+                    }
+                    isFirstLoad = false;
+                } else {
+                    // Từ lần check thứ 2 trở đi: Thấy tên mới thì cho vào hàng đợi để chạy hiệu ứng 2s
+                    recentMembers.forEach(name => {
+                        if (!daHienThi.has(name) && !hangDoi.includes(name)) {
+                            hangDoi.push(name);
+                        }
+                    });
+                    xuLyHangDoi();
+                }
+            } catch (err) {
+                console.log("Đang chờ kết nối...");
+            }
+        }
+
+        function xuLyHangDoi() {
+            if (dangChay || hangDoi.length === 0) return;
+
+            const emptyMsg = document.getElementById('emptyMsg');
+            if (emptyMsg) emptyMsg.style.display = 'none';
+
+            dangChay = true;
+            const name = hangDoi.shift(); 
+            daHienThi.add(name); 
+
+            const container = document.getElementById('memberList');
+            const div = taoKhungThongBao(name, false); // False = chạy hiệu ứng rớt xuống
+            container.prepend(div); // Bỏ lên trên cùng
+
+            // Đợi 2 giây mới chạy người tiếp theo
+            setTimeout(() => {
+                dangChay = false;
+                xuLyHangDoi(); 
+            }, 2000);
+        }
+
+        // Chạy lần đầu
+        capNhatThongBao();
+        // Check liên tục mỗi 3 giây
+        setInterval(capNhatThongBao, 3000);
+    </script>
+</body>
+</html>
