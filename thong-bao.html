@@ -22,16 +22,9 @@
         .welcome-box { background: var(--bg-glass); backdrop-filter: blur(16px); border-radius: 16px; padding: 24px; margin-bottom: 25px; border: var(--border-glass); box-shadow: var(--neon-shadow); min-height: 200px; }
         .welcome-title { font-size: 14px; color: var(--discord-green); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px; }
         .welcome-list { display: flex; flex-direction: column; gap: 12px; }
-        
-        .welcome-card { 
-            background-color: var(--bg-card); padding: 16px 20px; border-radius: 12px; 
-            display: flex; align-items: center; justify-content: space-between; 
-            border: var(--border-glass); border-left: 5px solid var(--discord-green);
-        }
-        /* Hiệu ứng chỉ chạy cho class có thêm animation */
+        .welcome-card { background-color: var(--bg-card); padding: 16px 20px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; border: var(--border-glass); border-left: 5px solid var(--discord-green); }
         .slide-down { opacity: 0; transform: translateY(-15px); animation: slideDown 0.5s ease forwards; }
         @keyframes slideDown { to { opacity: 1; transform: translateY(0); } }
-
         .welcome-user { display: flex; align-items: center; gap: 15px; }
         .welcome-avatar-img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--discord-blue); }
         .welcome-user span { color: var(--white); font-weight: 700; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; margin: 0 4px; }
@@ -80,27 +73,23 @@
 
         async function capNhatThongBao() {
             try {
-                // ĐÃ SỬA: Dùng link Render thật
                 const res = await fetch('https://discordweb-94yy.onrender.com/api/members');
                 const data = await res.text();
                 
-                const validLines = data.trim().split('\n').filter(line => line.trim() !== "");
+                // Dùng Regex để tách dòng chuẩn xác kể cả khi dữ liệu bị dính
+                const lines = data.split(/\r?\n/).filter(line => line.trim() !== "");
                 
-                const recentMembers = validLines.slice(-15).map(line => line.split('|')[0]);
+                // Lấy 15 người cuối để hiển thị
+                const recentMembers = lines.slice(-15).map(line => line.split('|')[0]);
 
                 if (isFirstLoad) {
                     const container = document.getElementById('memberList');
                     container.innerHTML = ''; 
-
-                    if (recentMembers.length === 0) {
-                        container.innerHTML = '<div class="empty-msg" id="emptyMsg">Chưa có thành viên nào mới gia nhập.</div>';
-                    } else {
-                        const reversedMembers = [...recentMembers].reverse();
-                        reversedMembers.forEach(name => {
-                            daHienThi.add(name);
-                            container.appendChild(taoKhungThongBao(name, true));
-                        });
-                    }
+                    const reversedMembers = [...recentMembers].reverse();
+                    reversedMembers.forEach(name => {
+                        daHienThi.add(name);
+                        container.appendChild(taoKhungThongBao(name, true));
+                    });
                     isFirstLoad = false;
                 } else {
                     recentMembers.forEach(name => {
@@ -110,29 +99,19 @@
                     });
                     xuLyHangDoi();
                 }
-            } catch (err) {
-                console.log("Đang đợi kết nối từ Render...");
-            }
+            } catch (err) { console.log("Đang đợi kết nối..."); }
         }
 
         function xuLyHangDoi() {
             if (dangChay || hangDoi.length === 0) return;
-
             const emptyMsg = document.getElementById('emptyMsg');
             if (emptyMsg) emptyMsg.style.display = 'none';
-
             dangChay = true;
             const name = hangDoi.shift(); 
             daHienThi.add(name); 
-
             const container = document.getElementById('memberList');
-            const div = taoKhungThongBao(name, false);
-            container.prepend(div);
-
-            setTimeout(() => {
-                dangChay = false;
-                xuLyHangDoi(); 
-            }, 2000);
+            container.prepend(taoKhungThongBao(name, false));
+            setTimeout(() => { dangChay = false; xuLyHangDoi(); }, 2000);
         }
 
         capNhatThongBao();
