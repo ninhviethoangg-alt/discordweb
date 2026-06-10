@@ -9,7 +9,7 @@ app.use(cors({ origin: '*' }));
 // Lấy thông tin bảo mật từ Render Environment Variables
 const TOKEN = process.env.TOKEN;
 const MONGO_URI = process.env.MONGO_URI;
-const SERVER_ID = "1514089514535096482";
+const SERVER_ID = "1314192364939640842";
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log('✅ Đã kết nối MongoDB!'))
