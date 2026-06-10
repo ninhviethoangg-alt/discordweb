@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GHOST COMMUNITY - Thông Báo</title>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --bg-glass: rgba(17, 18, 20, 0.65); --bg-card: rgba(30, 31, 34, 0.8); --bg-dark: rgba(11, 11, 12, 0.9);
@@ -15,35 +15,25 @@
         body { background: linear-gradient(rgba(10, 10, 12, 0.45), rgba(10, 10, 12, 0.65)), url('./img/cs2background.webp') no-repeat center center fixed; background-size: cover; color: var(--text-main); overflow-x: hidden; padding-bottom: 80px; }
         .navbar { background: var(--bg-dark); backdrop-filter: blur(12px); display: flex; justify-content: space-between; align-items: center; padding: 0 5%; height: 70px; position: sticky; top: 0; z-index: 1000; border-bottom: var(--border-glass); box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
         
-        /* ĐÃ SỬA: Thêm CSS này để icon có màu xanh và hiệu ứng neon */
         .logo { font-size: 24px; font-weight: 800; color: var(--white); display: flex; align-items: center; gap: 12px; }
-        .logo i { 
-    color: var(--discord-blue) !important; 
-    filter: drop-shadow(0 0 8px rgba(88, 101, 242, 0.6)) !important; 
-}
+        .logo i { color: var(--discord-blue) !important; filter: drop-shadow(0 0 8px rgba(88, 101, 242, 0.6)) !important; }
         
         .nav-links { display: flex; list-style: none; gap: 8px; }
         .nav-btn { background: none; border: none; color: var(--text-muted); font-size: 15px; font-weight: 600; padding: 10px 18px; border-radius: 8px; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
-        .nav-btn:hover { color: var(--white); background-color: rgba(255, 255, 255, 0.06); }
         .nav-btn.active { color: var(--white); background-color: rgba(88, 101, 242, 0.2); border: 1px solid rgba(88, 101, 242, 0.4); }
+        
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .welcome-box { background: var(--bg-glass); backdrop-filter: blur(16px); border-radius: 16px; padding: 24px; margin-bottom: 25px; border: var(--border-glass); box-shadow: var(--neon-shadow); min-height: 200px; }
-        .welcome-title { font-size: 14px; color: var(--discord-green); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px; }
-        .welcome-list { display: flex; flex-direction: column; gap: 12px; }
+        .welcome-box { background: var(--bg-glass); backdrop-filter: blur(16px); border-radius: 16px; padding: 24px; border: var(--border-glass); box-shadow: var(--neon-shadow); }
+        .welcome-title { font-size: 14px; color: var(--discord-green); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-weight: 800; }
         
         .welcome-card { background-color: var(--bg-card); padding: 16px 20px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; border: var(--border-glass); border-left: 5px solid var(--discord-green); margin-bottom: 10px; }
         .welcome-user { display: flex; align-items: center; gap: 15px; }
-        .welcome-icon { font-size: 24px; color: var(--discord-blue); }
-        .welcome-user div { color: var(--white); font-weight: 600; }
         .welcome-time { font-size: 13px; color: var(--text-muted); background: rgba(0, 0, 0, 0.2); padding: 4px 10px; border-radius: 20px; }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">
-    <i class="fa-brands fa-discord" style="color: #5865F2; filter: drop-shadow(0 0 8px rgba(88, 101, 242, 0.6));"></i> 
-    FLASH BENG
-</div>
+        <div class="logo"><i class="fa-brands fa-discord"></i> FLASH BENG</div>
         <ul class="nav-links">
             <li><a href="index.html" class="nav-btn">Trang Chủ</a></li>
             <li><a href="thanh-vien.html" class="nav-btn">Thành Viên</a></li>
@@ -51,19 +41,27 @@
             <li><a href="thong-bao.html" class="nav-btn active">Thông Báo</a></li>
         </ul>
     </nav>
-    <div class="welcome-card slide-down">
-    <div class="welcome-user">
-        <i class="fa-solid fa-trophy" style="color: #f1c40f; font-size: 24px;"></i>
-        <div>
-            <strong style="color: #5865F2;">GIẢI CUSTOM CS2 - 5V5</strong><br>
-            <span style="font-size: 14px; color: #b5bac1;">
-                <i class="fa-regular fa-clock"></i> 18:00 Tối nay | 
-                <i class="fa-solid fa-headset"></i> Yêu cầu Mic/Loa đầy đủ<br>
-                <i class="fa-solid fa-ban"></i> Luật: Không Knife, không súng điện, không Bug game<br>
-                <i class="fa-solid fa-gift"></i> Giải thưởng: 50.000đ (Chuyển khoản Banking)
-            </span>
+
+    <div class="container">
+        <div class="welcome-box">
+            <div class="welcome-title"><i class="fa-solid fa-bullhorn"></i> Bảng Tin Sự Kiện</div>
+            
+            <div class="welcome-card">
+                <div class="welcome-user">
+                    <i class="fa-solid fa-trophy" style="color: #f1c40f; font-size: 24px;"></i>
+                    <div>
+                        <strong style="color: #5865F2;">GIẢI CUSTOM CS2 - 5V5</strong><br>
+                        <span style="font-size: 14px; color: #b5bac1;">
+                            <i class="fa-regular fa-clock"></i> 18:00 Tối nay | 
+                            <i class="fa-solid fa-headset"></i> Yêu cầu Mic/Loa đầy đủ<br>
+                            <i class="fa-solid fa-ban"></i> Luật: Không Knife, không súng điện, không Bug game<br>
+                            <i class="fa-solid fa-gift"></i> Giải thưởng: 50.000đ (Chuyển khoản Banking)
+                        </span>
+                    </div>
+                </div>
+                <div class="welcome-time">10/06/2026</div>
+            </div>
         </div>
     </div>
-    <div class="welcome-time">10/06/2026</div>
 </body>
 </html>
