@@ -44,7 +44,16 @@ app.get('/api/members', async (req, res) => {
 
 app.get('/api/stats', (req, res) => {
     const guild = client.guilds.cache.get(SERVER_ID);
-    res.json(guild ? { total: guild.memberCount, online: guild.presences.cache.filter(p => p.status !== 'offline').size } : { total: 0, online: 0 });
+    if (!guild) return res.json({ total: 0, online: 0, boostLevel: 0 });
+
+    // Đếm online dựa trên trạng thái của member
+    const onlineCount = guild.members.cache.filter(m => m.presence && m.presence.status !== 'offline').size;
+    
+    res.json({ 
+        total: guild.memberCount, 
+        online: onlineCount,
+        boostLevel: guild.premiumSubscriptionCount || 0
+    });
 });
 
 const PORT = process.env.PORT || 3000;
