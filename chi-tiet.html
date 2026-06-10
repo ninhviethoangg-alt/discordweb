@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flash Beng - Chi Tiết</title>
+    <title>Flash Beng - Trang Chủ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -11,6 +11,8 @@
             --bg-card: rgba(30, 31, 34, 0.8); 
             --bg-dark: rgba(11, 11, 12, 0.9);
             --discord-blue: #5865F2; 
+            --discord-green: #23a55a;
+            --discord-yellow: #f1c40f;
             --text-main: #f2f3f5; 
             --text-muted: #b5bac1; 
             --white: #ffffff;
@@ -40,31 +42,141 @@
             border: 1px solid rgba(88, 101, 242, 0.4); box-shadow: 0 0 15px rgba(88, 101, 242, 0.2);
         }
         .container { max-width: 1000px; margin: 40px auto 0 auto; padding: 0 20px; width: 100%; display: block; }
-        
         .content-box {
-            background: var(--bg-glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            padding: 35px; border-radius: 16px; border: var(--border-glass); box-shadow: var(--neon-shadow);
-            width: 100%; display: block;
+            background: var(--bg-glass); backdrop-filter: blur(16px); padding: 35px; border-radius: 16px; border: var(--border-glass); box-shadow: var(--neon-shadow);
         }
-        .content-box h2 { color: var(--white); margin-bottom: 20px; font-size: 26px; font-weight: 800; display: flex; align-items: center; gap: 12px; width: 100%; }
-        .content-box p { font-size: 16px; line-height: 1.7; opacity: 0.95; width: 100%; display: block; }
+        .content-box h2 { color: var(--white); margin-bottom: 15px; font-size: 26px; font-weight: 800; display: flex; align-items: center; gap: 12px; }
+        .intro-text { font-size: 16px; line-height: 1.7; opacity: 0.95; margin-bottom: 30px; }
+        .server-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 35px; }
+        .stat-card { background-color: var(--bg-card); padding: 20px; border-radius: 12px; border: var(--border-glass); text-align: center; }
+        .stat-card i { font-size: 24px; margin-bottom: 10px; display: inline-block; }
+        .stat-card .num { font-size: 26px; font-weight: 800; color: var(--white); display: block; margin-bottom: 2px; }
+        .stat-card .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .section-title { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 15px; text-transform: uppercase; display: flex; align-items: center; gap: 8px;}
+        .feature-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 35px; }
+        .feature-item {
+            background-color: rgba(255, 255, 255, 0.02); padding: 16px 20px; border-radius: 10px; border: var(--border-glass);
+            border-left: 4px solid var(--discord-blue); display: flex; align-items: center; gap: 15px;
+        }
+        .join-box {
+            background: linear-gradient(90deg, rgba(88, 101, 242, 0.15), rgba(35, 165, 90, 0.05));
+            border: 1px solid rgba(88, 101, 242, 0.3); border-radius: 12px; padding: 25px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .join-btn {
+            background-color: var(--discord-blue); color: var(--white); text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: 0.2s;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar">
-       <div class="logo"><i class="fa-brands fa-discord"></i> Flash Beng</div>
+        <div class="logo"><i class="fa-brands fa-discord"></i> GHOST COMMUNITY</div>
         <ul class="nav-links">
-            <li><a href="index.html" class="nav-btn"><i class="fa-solid fa-layer-group"></i> Trang Chủ</a></li>
-            <li><a href="thanh-vien.html" class="nav-btn active"><i class="fa-solid fa-user-group"></i> Thành Viên</a></li>
+            <li><a href="index.html" class="nav-btn active"><i class="fa-solid fa-layer-group"></i> Trang Chủ</a></li>
+            <li><a href="thanh-vien.html" class="nav-btn"><i class="fa-solid fa-user-group"></i> Thành Viên</a></li>
             <li><a href="chi-tiet.html" class="nav-btn"><i class="fa-solid fa-compass"></i> Chi Tiết</a></li>
             <li><a href="thong-bao.html" class="nav-btn"><i class="fa-solid fa-bullhorn"></i> Thông Báo</a></li>
         </ul>
     </nav>
     <div class="container">
         <div class="content-box">
-            <h2><i class="fa-solid fa-circle-info" style="color: #f1c40f;"></i> Thông Tin Vận Hành</h2>
-            <p>Cung cấp tài liệu hướng dẫn, sơ đồ phòng chat và các quy chuẩn ứng xử chung trong server. Hãy đảm bảo bạn luôn theo dõi các chỉ mục tại đây để giữ vững môi trường giao lưu lành mạnh.</p>
+            <h2><i class="fa-solid fa-house" style="color: var(--discord-blue);"></i> Tổng Quan Server</h2>
+            <p class="intro-text">Chào mừng bạn đến với trang thông tin chính thức của server. Hệ thống tự động cập nhật số liệu thời gian thực từ Discord.</p>
+            
+            <div class="server-stats">
+                <div class="stat-card">
+                    <i class="fa-solid fa-users" style="color: var(--discord-blue);"></i>
+                    <span class="num" data-target="0">0</span>
+                    <span class="label">Thành viên</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fa-solid fa-circle" style="color: var(--discord-green);"></i>
+                    <span class="num" data-target="0">0</span>
+                    <span class="label">Trực tuyến</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fa-solid fa-bolt" style="color: var(--discord-yellow);"></i>
+                    <span class="num">...</span>
+                    <span class="label">Server Boost</span>
+                </div>
+            </div>
+
+            <div class="section-title"><i class="fa-solid fa-star" style="color: var(--discord-yellow);"></i> Tính năng nổi bật</div>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <i class="fa-solid fa-gamepad" style="color: var(--discord-green);"></i>
+                    <p><strong>Voice Chat Chất Lượng Cao:</strong> Cấu hình bitrate tối ưu cho scrim và leo rank.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-gift" style="color: #e74c3c;"></i>
+                    <p><strong>Sự kiện định kỳ:</strong> Tổ chức Custom Match và giải đấu mini hằng tuần.</p>
+                </div>
+            </div>
+
+            <div class="join-box">
+                <div>
+                    <h4>Tham gia cộng đồng ngay!</h4>
+                    <p>Nhấp vào nút bên cạnh để nhận link mời trực tiếp.</p>
+                </div>
+                <a href="https://discord.gg/5uAXRdnaCc" target="_blank" class="join-btn"><i class="fa-brands fa-discord"></i> Tham Gia Ngay</a>
+            </div>
         </div>
     </div>
+
+   <script>
+    async function capNhatThongKeDiscord() {
+        let soThanhVien = 0; 
+        let soOnline = 0;     
+        let capBoost = 0;
+
+        try {
+            // Đã thay đổi thành link Render của ông để chạy được trên mọi thiết bị
+            const response = await fetch('https://discordweb-94yy.onrender.com/api/stats');
+            if (response.ok) {
+                const data = await response.json();
+                soThanhVien = data.total;
+                soOnline = data.online;
+                capBoost = data.boostLevel || 0; 
+            }
+        } catch (error) {
+            console.log("Đang đợi bot kết nối từ Render...");
+        }
+
+        const oThanhVien = document.querySelector('.server-stats .stat-card:nth-child(1) .num');
+        const oOnline = document.querySelector('.server-stats .stat-card:nth-child(2) .num');
+        const oBoost = document.querySelector('.server-stats .stat-card:nth-child(3) .num');
+        
+        if (oThanhVien) oThanhVien.setAttribute('data-target', soThanhVien);
+        if (oOnline) oOnline.setAttribute('data-target', soOnline);
+        
+        if (oBoost) {
+            oBoost.innerText = `Level ${capBoost}`;
+        }
+
+        const counters = document.querySelectorAll('.num[data-target]');
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            let count = 0;
+            const speed = target / 30 || 1; 
+
+            const chaySo = () => {
+                count += speed;
+                if (count < target) {
+                    counter.innerText = Math.ceil(count).toLocaleString();
+                    requestAnimationFrame(chaySo); 
+                } else {
+                    counter.innerText = target.toLocaleString(); 
+                }
+            };
+            
+            if (target > 0) chaySo();
+            else counter.innerText = "0";
+        });
+    }
+
+    window.onload = () => {
+        capNhatThongKeDiscord();
+        setInterval(capNhatThongKeDiscord, 30000); // Cập nhật mỗi 30 giây
+    };
+    </script>
 </body>
 </html>
