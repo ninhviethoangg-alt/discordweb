@@ -79,11 +79,18 @@
     <script>
         async function loadAllMembers() {
             try {
-                const res = await fetch('http://localhost:3000/api/members');
+                // Đã cập nhật link Render thực tế
+                const res = await fetch('https://discordweb-94yy.onrender.com/api/members');
                 const data = await res.text();
+                
+                // Nếu không có dữ liệu trả về
+                if (!data) {
+                    document.getElementById('allMembersList').innerHTML = '<p>Chưa có dữ liệu thành viên.</p>';
+                    return;
+                }
+
                 const lines = data.trim().split('\n');
                 const list = document.getElementById('allMembersList');
-                
                 list.innerHTML = ''; 
 
                 lines.forEach(line => {
@@ -103,6 +110,7 @@
                 });
             } catch (err) {
                 console.error("Lỗi tải dữ liệu:", err);
+                document.getElementById('allMembersList').innerHTML = '<p>Không thể kết nối đến Bot.</p>';
             }
         }
         loadAllMembers();
