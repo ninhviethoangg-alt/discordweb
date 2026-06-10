@@ -22,14 +22,20 @@
         .welcome-box { background: var(--bg-glass); backdrop-filter: blur(16px); border-radius: 16px; padding: 24px; margin-bottom: 25px; border: var(--border-glass); box-shadow: var(--neon-shadow); min-height: 200px; }
         .welcome-title { font-size: 14px; color: var(--discord-green); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px; }
         .welcome-list { display: flex; flex-direction: column; gap: 12px; }
-        .welcome-card { background-color: var(--bg-card); padding: 16px 20px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; border: var(--border-glass); border-left: 5px solid var(--discord-green); }
-        .slide-down { opacity: 0; transform: translateY(-15px); animation: slideDown 0.5s ease forwards; }
-        @keyframes slideDown { to { opacity: 1; transform: translateY(0); } }
+        
+        .welcome-card { 
+            background-color: var(--bg-card); padding: 16px 20px; border-radius: 12px; 
+            display: flex; align-items: center; justify-content: space-between; 
+            border: var(--border-glass); border-left: 5px solid var(--discord-green);
+            margin-bottom: 10px;
+        }
+        .slide-down { animation: slideDown 0.5s ease forwards; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+
         .welcome-user { display: flex; align-items: center; gap: 15px; }
-        .welcome-avatar-img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--discord-blue); }
-        .welcome-user span { color: var(--white); font-weight: 700; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; margin: 0 4px; }
+        .welcome-icon { font-size: 24px; color: var(--discord-blue); }
+        .welcome-user div { color: var(--white); font-weight: 600; }
         .welcome-time { font-size: 13px; color: var(--text-muted); background: rgba(0, 0, 0, 0.2); padding: 4px 10px; border-radius: 20px; }
-        .empty-msg { text-align: center; color: var(--text-muted); font-size: 14px; font-style: italic; padding: 20px 0; }
     </style>
 </head>
 <body>
@@ -44,79 +50,19 @@
     </nav>
     <div class="container">
         <div class="welcome-box">
-            <div class="welcome-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Hệ thống đang trực</div>
-            <div class="welcome-list" id="memberList">
-                <div class="empty-msg" id="emptyMsg">Đang tải lịch sử...</div>
+            <div class="welcome-title"><i class="fa-solid fa-bullhorn"></i> Bảng Tin Sự Kiện</div>
+            
+            <div class="welcome-list" id="announcementList">
+                <div class="welcome-card slide-down">
+                    <div class="welcome-user">
+                        <i class="fa-solid fa-star welcome-icon"></i>
+                        <div>Giải đấu CS2 mùa hè chính thức mở đăng ký!</div>
+                    </div>
+                    <div class="welcome-time">10/06/2026</div>
+                </div>
             </div>
+
         </div>
     </div>
-
-    <script>
-        let daHienThi = new Set(); 
-        let hangDoi = []; 
-        let dangChay = false;
-        let isFirstLoad = true; 
-
-        function taoKhungThongBao(name, isInstant) {
-            const div = document.createElement('div');
-            div.className = isInstant ? 'welcome-card' : 'welcome-card slide-down';
-            div.innerHTML = `
-                <div class="welcome-user">
-                    <img class="welcome-avatar-img" src="https://api.dicebear.com/7.x/bottts/svg?seed=${name}" alt="Avatar">
-                    <div>Chào mừng <span>${name}</span> đã gia nhập Flash Beng!</div>
-                </div>
-                <div class="welcome-time"><i class="fa-regular fa-clock"></i> Gần đây</div>
-            `;
-            // 10000 mili giây = 10 giây
-setTimeout(() => { div.remove(); }, 10000);
-            return div;
-        }
-
-        async function capNhatThongBao() {
-            try {
-                const res = await fetch('https://discordweb-94yy.onrender.com/api/members');
-                const data = await res.text();
-                
-                // Dùng Regex để tách dòng chuẩn xác kể cả khi dữ liệu bị dính
-                const lines = data.split(/\r?\n/).filter(line => line.trim() !== "");
-                
-                // Lấy 15 người cuối để hiển thị
-                const recentMembers = lines.slice(-15).map(line => line.split('|')[0]);
-
-                if (isFirstLoad) {
-                    const container = document.getElementById('memberList');
-                    container.innerHTML = ''; 
-                    const reversedMembers = [...recentMembers].reverse();
-                    reversedMembers.forEach(name => {
-                        daHienThi.add(name);
-                        container.appendChild(taoKhungThongBao(name, true));
-                    });
-                    isFirstLoad = false;
-                } else {
-                    recentMembers.forEach(name => {
-                        if (!daHienThi.has(name) && !hangDoi.includes(name)) {
-                            hangDoi.push(name);
-                        }
-                    });
-                    xuLyHangDoi();
-                }
-            } catch (err) { console.log("Đang đợi kết nối..."); }
-        }
-
-        function xuLyHangDoi() {
-            if (dangChay || hangDoi.length === 0) return;
-            const emptyMsg = document.getElementById('emptyMsg');
-            if (emptyMsg) emptyMsg.style.display = 'none';
-            dangChay = true;
-            const name = hangDoi.shift(); 
-            daHienThi.add(name); 
-            const container = document.getElementById('memberList');
-            container.prepend(taoKhungThongBao(name, false));
-            setTimeout(() => { dangChay = false; xuLyHangDoi(); }, 2000);
-        }
-
-        capNhatThongBao();
-        setInterval(capNhatThongBao, 3000);
-    </script>
 </body>
 </html>
